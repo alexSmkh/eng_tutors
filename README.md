@@ -63,6 +63,10 @@ pip install -r requirements.txt
 
 Запустите:
 ```bash
+# Используя Flask-сревер
 python app.py
+
+# Используя gunicorn
+gunicorn app:app
 ```
 Если запускаете локально, то сайт будет доступен по http://127.0.0.1:5000/
