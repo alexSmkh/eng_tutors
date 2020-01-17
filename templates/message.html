@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mt-5">
+  <div class="col-6 offset-3">
+    <form action="{{ url_for('message', teacher_id=teacher_id) }}" class="card mb-3" method='POST'>
+
+
+      <div class="card-body text-center pt-5">
+        {% if teacher.picture %}
+        <img src="{{ teacher.picture }}" class="mb-3" width="95" alt="">
+        {% else %}
+        <img src="https://hyiproom.net/images/no_avatar.svg" class="mb-3" width="95" alt="">
+        {% endif %}
+        <h5 class="card-title mt-2 mb-2">{{ teacher.name }}</h5>
+        <p class="my-1">Отправить сообщение</p>
+      </div>
+
+
+      <hr />
+      {% with messages = get_flashed_messages(category_filter=['sent']) %}
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-success" role="alert">
+        {{ message }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+
+      <div class="card-body mx-3">
+        {{ form.hidden_tag() }}
+
+        {{ form.name.label(class_="mb-1 mt-2") }}
+        {{ form.name(class_="form-control") }}
+
+        {{ form.phone.label(class_="mb-1 mt-2") }}
+        {{ form.phone(class_="form-control") }}
+
+        {{ form.message.label(class_="mb-1 mt-2") }}
+        {{ form.message(class_="form-control") }}
+
+        {{ form.submit(class_="btn btn-primary btn-block mt-4") }}
+
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

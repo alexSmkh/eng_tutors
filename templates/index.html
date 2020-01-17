@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="h1 text-center w-50 mx-auto mt-4 py-5"><strong>Найдите идеального репетитора английского, занимайтесь
+        онлайн</strong></h2>
+
+<div class="text-center mb-5">
+    <div class="btn-group mx-auto mb-0" role="group" aria-label="Basic example">
+        {% for goal, goal_ru in goals.items() %}
+        <a class="btn btn-outline-secondary" href="{{ url_for('goal', goal=goal) }}">
+            {{ emoji[goal] }} {{ goal_ru }}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<h5 class="text-center mb-5">Свободны прямо сейчас</h5>
+
+<div class="w-75 m-auto">
+    {% include "cards/teacher_list.html" %}
+</div>
+
+{% endblock %}

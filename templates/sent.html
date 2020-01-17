@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row mt-5">
+  <div class="col-6 offset-3">
+    <div class="card mb-3">
+
+
+      <div class="card-body text-center pt-5">
+        <img src="../static/check.png" class="mb-3" width="65" alt="">
+        <h3 class="card-title mt-4 mb-2">Отправлено!</h3>
+        <p>Скоро мы вам перезвоним</p>
+      </div>
+
+      <hr />
+
+      <div class="card-body mx-5">
+        <p><b>Тема:</b> {{ subject_description }}</p>
+        {% if subject == 'trial' %}
+        <p><b>Дата:</b> {{ lesson_day }}, {{ lesson_time }}</p>
+        {% else %}
+        <p><b>Ваша цель:</b> {{ goal }}</p>
+        <p><b>Время на занятия:</b> {{ time }}</p>
+        {% endif %}
+        <p><b>Имя:</b> {{ name }}</p>
+        <p><b>Телефон:</b> {{ phone }}</p>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

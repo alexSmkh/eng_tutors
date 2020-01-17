@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row mt-5">
+      <div class="col-6 offset-3">
+        <form action="{{ url_for('booking', teacher_id=teacher_id, day=lesson_day, time=lesson_time) }}" class="card mb-3"
+          method="POST">
+
+          <div class="card-body text-center pt-5">
+            {% if picture %}
+            <img src="{{ picture }}" class="mb-3" width="95" alt="">
+            {% else %}
+            <img src="https://hyiproom.net/images/no_avatar.svg" class="mb-3" width="95" alt="">
+            {% endif %}
+            <h5 class="card-title mt-2 mb-2">{{ name }}</h5>
+            <p class="my-1">Запись на пробный урок</p>
+            <p class="my-1">{{ lesson_day }}, {{ lesson_time }}</p>
+          </div>
+
+          <hr />
+
+          <div class="card-body mx-3">
+            {{ form.hidden_tag() }}
+
+            <div>
+              <p>{{ form.name.label(class_="mb-1 mt-2") }}</p>
+              <p>{{ form.name(class_="mb-1 mt-2") }}</p>
+            </div>
+            <div>
+              <p>{{ form.phone.label(class_="mb-1 mt-2") }}</p>
+              <p>{{ form.phone(class_="mb-1 mt-2") }}</p>
+            </div>
+
+            <div>
+              {{ form.submit(class_='btn btn-primary btn-block mt-4') }}
+            </div>
+
+        </form>
+
+      </div>
+    </div>
+{% endblock %}
