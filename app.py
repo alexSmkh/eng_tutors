@@ -1,14 +1,13 @@
+import os
+import json
 from flask import Flask, render_template, abort, request, url_for, redirect, flash
 from global_variables import TEACHERS, GOALS, EMOJI, RU_DAYS_SHORT, RU_DAYS
 from forms import BookingForm, TeacherSelectionForm, MessageForm
-from config import Config
-from dotenv import load_dotenv
 from tools import update_data_in_file
-import json
 
 
 app = Flask(__name__)
-app.config.from_object(Config)
+app.config['SECRET_KEY'] = os.urandom(32)
 
 
 @app.route('/')
@@ -168,5 +167,4 @@ def not_found(error):
 
 
 if __name__ == '__main__':
-    load_dotenv()
     app.run()
