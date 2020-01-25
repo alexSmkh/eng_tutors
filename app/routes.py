@@ -1,13 +1,12 @@
-import os
 import json
-from flask import Flask, render_template, abort, request, url_for, redirect, flash
-from global_variables import TEACHERS, GOALS, EMOJI, RU_DAYS_SHORT, RU_DAYS
-from forms import BookingForm, TeacherSelectionForm, MessageForm
+
+from flask import render_template, abort, request, url_for, redirect, flash
+
+from app import app
+from app.forms import BookingForm, TeacherSelectionForm, MessageForm
 from tools import update_data_in_file
+from global_variables import TEACHERS, GOALS, EMOJI, RU_DAYS_SHORT, RU_DAYS
 
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.urandom(32)
 
 
 @app.route('/')
@@ -166,5 +165,3 @@ def not_found(error):
     return "Ничего не нашлось! Вот неудача, отправляйтесь на главную!"
 
 
-if __name__ == '__main__':
-    app.run()

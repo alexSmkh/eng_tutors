@@ -1,5 +1,8 @@
-import os 
+import os
 
 
-class Config():
-    SECRET_KEY = os.getenv('SECRET_KEY')
+class Config:
+    SECRET_KEY = os.environ.get('SECRET_KEY') or os.urandom(32)
+
+
+
