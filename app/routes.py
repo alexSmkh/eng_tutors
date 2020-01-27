@@ -12,16 +12,11 @@ from global_variables import TEACHERS, GOALS, EMOJI, RU_DAYS_SHORT, RU_DAYS
 
 @app.route('/')
 def main():
-    ordered_teacher_ids_by_rating = sorted(
-        TEACHERS,
-        key=lambda teacher_id: TEACHERS[teacher_id]['rating'],
-        reverse=True
-    )
-    
-    ordered_teachers = {id_: TEACHERS[id_] for id_ in ordered_teacher_ids_by_rating}
+    teachers = db.session.query(Teacher).order_by(Teacher.rating.desc())
+    goals = db.session.query(Goal).all()
     context = {
-        'teachers': ordered_teachers,
-        'goals': GOALS,
+        'teachers': teachers,
+        'goals': goals,
         'emoji': EMOJI
     }
     return render_template('index.html', **context)
@@ -32,7 +27,7 @@ def goal(goal_slug):
     goal = db.session.query(Goal).filter(Goal.slug == goal_slug).first()
     teachers = db.session.query(Teacher)\
     .filter(Teacher.goals.contains(goal))\
-    .order_by(Teacher.rating)
+    .order_by(Teacher.rating.desc())
 
     if not teachers: 
         abort(404)
