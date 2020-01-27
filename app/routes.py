@@ -2,7 +2,8 @@ import json
 
 from flask import render_template, abort, request, url_for, redirect, flash
 
-from app import app
+from app import app, db 
+from app.models import Teacher, Goal, Request, Booking
 from app.forms import BookingForm, TeacherSelectionForm, MessageForm
 from tools import update_data_in_file
 from global_variables import TEACHERS, GOALS, EMOJI, RU_DAYS_SHORT, RU_DAYS
@@ -50,22 +51,16 @@ def goal(goal):
     return render_template('goal.html', **context)
 
 
-@app.route('/profiles/<string:teacher_id>')
+@app.route('/profiles/<int:teacher_id>')
 def profile(teacher_id):
-    teacher = TEACHERS.get(teacher_id)
-    if not teacher:
-        abort(404)
-
-    translated_teacher_goals = list(
-        map(lambda goal: GOALS[goal], teacher['goals']))
-    teacher.update(
-        {
-            'translated_goals': translated_teacher_goals,
-            'ru_days': RU_DAYS_SHORT,
-            'teacher_id': teacher_id
-        }
-    )
-    return render_template('profile.html', **teacher)
+    teacher = db.session.query(Teacher).get_or_404(teacher_id)
+    schedule = json.loads(teacher.schedule)
+    context = {
+        'teacher': teacher,
+        'ru_days': RU_DAYS_SHORT,
+        'schedule': json.loads(teacher.schedule)
+    }
+    return render_template('profile.html', **context)
 
 
 @app.route('/sent', methods=['GET','POST'])
@@ -163,5 +158,4 @@ def message(teacher_id):
 @app.errorhandler(404)
 def not_found(error):
     return "Ничего не нашлось! Вот неудача, отправляйтесь на главную!"
-
 
