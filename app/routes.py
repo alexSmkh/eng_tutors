@@ -58,44 +58,46 @@ def sent():
     return render_template('sent.html', **context)
 
 
-@app.route('/booking/<string:teacher_id>', methods=['GET', 'POST'])
+@app.route('/booking/<int:teacher_id>', methods=['GET', 'POST'])
 def booking(teacher_id):
-    teacher = TEACHERS.get(teacher_id)
-    if not teacher:
-        abort(404)
-
+    teacher = db.session.query(Teacher).get_or_404(teacher_id)
     form = BookingForm()
+    
     if form.validate_on_submit():
-        update_data_in_file(
-            'bookings',
-            {'name': form.name.data,
-             'phone': form.phone.data,
-             'day': request.args.get('day'),
-             'time': request.args.get('time')}
-        ) 
-
         weekday_ru = request.args.get('day')
         time = request.args.get('time')
-        weekday_en = next(
+        weekday_slug = next(
             (day_en for day_en, day_ru in RU_DAYS.items() if weekday_ru == day_ru),
             None
         )
-        TEACHERS[teacher_id]['free'][weekday_en][time] = False
+
+        booking = Booking(
+            username=form.name.data,
+            phone=form.phone.data,
+            weekday=weekday_ru,
+            time=time
+        )
+
+        teacher_schedule = json.loads(teacher.schedule)
+        teacher_schedule[weekday_slug][time] = False
+        teacher.schedule = json.dumps(teacher_schedule)
+        teacher.bookings.append(booking)
+        db.session.add(teacher)
+        db.session.add(booking)
+        db.session.commit()
 
         context = {
-            'name': form.name.data,
-            'phone': form.phone.data,
-            'lesson_day':  weekday_ru,
-            'lesson_time': time,
+            'name': booking.username,
+            'phone': booking.phone,
+            'lesson_day':  booking.weekday ,
+            'lesson_time': booking.time,
             'subject': 'trial',
             'subject_description': 'Пробное занятие'
         }
         return redirect(url_for('sent', context=json.dumps(context)))
 
     context = {
-        'name': teacher['name'],
-        'picture': teacher['picture'],
-        'teacher_id': teacher_id,
+        'teacher': teacher,
         'lesson_day': RU_DAYS[request.args.get('day')],
         'lesson_time': request.args.get('time')
     }
@@ -147,4 +149,3 @@ def message(teacher_id):
 @app.errorhandler(404)
 def not_found(error):
     return "Ничего не нашлось! Вот неудача, отправляйтесь на главную!"
-
