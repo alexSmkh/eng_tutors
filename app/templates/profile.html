@@ -5,24 +5,24 @@
 
     <div class="card-body m-4">
         <div class="row">
-            {% if picture %}
-            <div class="col-5"><img src="{{ picture }}" class="img-fluid"></div>
+            {% if teacher.picture %}
+            <div class="col-5"><img src="{{ teacher.picture }}" class="img-fluid"></div>
             {% else %}
             <div class="col-5"><img src="https://hyiproom.net/images/no_avatar.svg" class="img-fluid"></div>
             {% endif %}
             <div class="col-7">
-                <h2>{{ name }}</h2>
+                <h2>{{ teacher.fullname }}</h2>
                 <p>
-                    {% for goal in translated_goals %}
+                    {% for goal in teacher.goals %}
                     <span class="badge badge-secondary mr-2">
-                        {{ goal }}
+                        {{ goal.title }}
                     </span>
                     {% endfor %}
-                    Рейтинг: {{ rating }} Ставка: {{ price }} / час
+                    Рейтинг: {{ teacher.rating }} Ставка: {{ teacher.price }} / час
                 </p>
-                <p>{{ about }}</p>
+                <p>{{ teacher.about }}</p>
                 <br> <br>
-                <a href="{{ url_for('message', teacher_id=teacher_id) }}"
+                <a href="{{ url_for('message', teacher_id=teacher.id) }}"
                     class="btn btn-outline-secondary btn-sm ">Отправить сообщение</a>
             </div>
         </div>
@@ -33,17 +33,17 @@
         <table class="table">
 
             <td>#</td>
-            {% for time in free.mon %}
+            {% for time in schedule.mon %}
             <td><b>{{ time }}</b></td>
             {% endfor %}
 
-            {% for day, times in free.items() %}
+            {% for day, times in schedule.items() %}
             <tr>
                 <td><b>{{ ru_days[day]|capitalize }}</b></td>
                 {% for time, is_free in times.items() %}
                 {% if is_free %}
                 <td>
-                    <a href="{{ url_for('booking', teacher_id=teacher_id, day=day, time=time) }}"
+                    <a href="{{ url_for('booking', teacher_id=teacher.id, day=day, time=time) }}"
                         class="btn btn-sm btn-success">
                         {{ time }}
                     </a>
