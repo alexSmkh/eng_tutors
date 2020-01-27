@@ -135,9 +135,6 @@ def teacher_selection():
 
 @app.route('/message/<int:teacher_id>', methods=['GET', 'POST'])
 def message(teacher_id):
-    # teacher = TEACHERS.get(teacher_id)
-    # if not teacher:
-    #     abort(404)
     teacher = db.session.query(Teacher).get_or_404(teacher_id)
     form = MessageForm()
 
