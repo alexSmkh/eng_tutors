@@ -31,7 +31,7 @@ class Teacher(db.Model):
     rating = db.Column(db.Float, default=0.0)
     picture = db.Column(db.String(1000))
     price = db.Column(db.Integer, nullable=False)
-    schedule = db.Column(db.String(5000), nullable=False)
+    schedule = db.Column(db.JSON, nullable=False)
     bookings = db.relationship('Booking', back_populates='teacher')
     goals = db.relationship(
         'Goal',
