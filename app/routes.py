@@ -110,18 +110,21 @@ def teacher_selection():
     form = TeacherSelectionForm()
     
     if form.validate_on_submit():
-        update_data_in_file(
-            'requests',
-            {'name': form.name.data,
-             'phone': form.phone.data,
-             'goal': form.goals.data,
-             'time': form.time.data}
+        goal = db.session.query(Goal).filter(Goal.slug == form.goals.data).first()
+        new_request = Request(
+            username=form.name.data,
+            phone=form.phone.data,
+            goal=goal,
+            time=form.time.data
         )
+        db.session.add(new_request)
+        db.session.commit()
+
         context = {
-            'name': form.name.data,
-            'phone': form.phone.data,
-            'goal': GOALS[form.goals.data],
-            'time': form.time.data,
+            'name': new_request.username,
+            'phone': new_request.phone,
+            'goal': new_request.goal.title,
+            'time': new_request.time,
             'subject': 'request',
             'subject_description': 'Заявка на подбор преподавателя'
         }
