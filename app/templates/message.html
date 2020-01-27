@@ -3,7 +3,7 @@
 {% block content %}
 <div class="row mt-5">
   <div class="col-6 offset-3">
-    <form action="{{ url_for('message', teacher_id=teacher_id) }}" class="card mb-3" method='POST'>
+    <form action="{{ url_for('message', teacher_id=teacher.id) }}" class="card mb-3" method='POST'>
 
 
       <div class="card-body text-center pt-5">
@@ -12,7 +12,7 @@
         {% else %}
         <img src="https://hyiproom.net/images/no_avatar.svg" class="mb-3" width="95" alt="">
         {% endif %}
-        <h5 class="card-title mt-2 mb-2">{{ teacher.name }}</h5>
+        <h5 class="card-title mt-2 mb-2">{{ teacher.fullname }}</h5>
         <p class="my-1">Отправить сообщение</p>
       </div>
 

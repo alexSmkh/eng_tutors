@@ -133,19 +133,19 @@ def teacher_selection():
     return render_template('pick.html', form=form)
 
 
-@app.route('/message/<string:teacher_id>', methods=['GET', 'POST'])
+@app.route('/message/<int:teacher_id>', methods=['GET', 'POST'])
 def message(teacher_id):
-    teacher = TEACHERS.get(teacher_id)
-    if not teacher:
-        abort(404)
-
+    # teacher = TEACHERS.get(teacher_id)
+    # if not teacher:
+    #     abort(404)
+    teacher = db.session.query(Teacher).get_or_404(teacher_id)
     form = MessageForm()
 
     if form.validate_on_submit():
         flash('Сообщение отправлено!', category='sent')
-        return redirect(url_for('message', teacher_id=teacher_id))
+        return redirect(url_for('message', teacher_id=teacher.id))
         
-    context = {'teacher': teacher, 'teacher_id': teacher_id}
+    context = {'teacher': teacher}
     return render_template('message.html', form=form, **context)
 
 
