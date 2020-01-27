@@ -5,7 +5,7 @@ from flask import render_template, abort, request, url_for, redirect, flash
 from app import app, db 
 from app.models import Teacher, Goal, Request, Booking
 from app.forms import BookingForm, TeacherSelectionForm, MessageForm
-from global_variables import TEACHERS, GOALS, EMOJI, RU_DAYS_SHORT, RU_DAYS
+from global_variables import EMOJI, RU_DAYS_SHORT, RU_DAYS
 
 
 
