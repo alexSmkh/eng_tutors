@@ -27,26 +27,20 @@ def main():
     return render_template('index.html', **context)
 
 
-@app.route('/goals/<goal>')
-def goal(goal):
-    teachers = {
-        id_: teacher 
-        for id_, teacher in TEACHERS.items() 
-        if goal in teacher['goals']
-    }
+@app.route('/goals/<goal_slug>')
+def goal(goal_slug):
+    goal = db.session.query(Goal).filter(Goal.slug == goal_slug).first()
+    teachers = db.session.query(Teacher)\
+    .filter(Teacher.goals.contains(goal))\
+    .order_by(Teacher.rating)
 
-    ordered_teacher_ids_by_rating = sorted(
-        teachers,
-        key=lambda teacher_id: teachers[teacher_id]['rating'],
-        reverse=True
-    )
-
-    ordered_teachers = {id_: TEACHERS[id_] for id_ in ordered_teacher_ids_by_rating}
+    if not teachers: 
+        abort(404)
 
     context = {
-        'teachers': ordered_teachers,
-        'emoji': EMOJI[goal],
-        'goal': GOALS[goal]
+        'teachers': teachers,
+        'emoji': EMOJI[goal_slug],
+        'goal': goal
     }
     return render_template('goal.html', **context)
 
