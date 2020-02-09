@@ -3,12 +3,12 @@
 {% block content %}
     <div class="row mt-5">
       <div class="col-6 offset-3">
-        <form action="{{ url_for('booking', teacher_id=teacher_id, day=lesson_day, time=lesson_time) }}" class="card mb-3"
+        <form action="{{ url_for('booking', teacher_id=teacher.id, day=lesson_day, time=lesson_time) }}" class="card mb-3"
           method="POST">
 
           <div class="card-body text-center pt-5">
-            {% if picture %}
-            <img src="{{ picture }}" class="mb-3" width="95" alt="">
+            {% if teacher.picture %}
+            <img src="{{ teacher.picture }}" class="mb-3" width="95" alt="">
             {% else %}
             <img src="https://hyiproom.net/images/no_avatar.svg" class="mb-3" width="95" alt="">
             {% endif %}

@@ -6,9 +6,13 @@
 
 <div class="text-center mb-5">
     <div class="btn-group mx-auto mb-0" role="group" aria-label="Basic example">
-        {% for goal, goal_ru in goals.items() %}
-        <a class="btn btn-outline-secondary" href="{{ url_for('goal', goal=goal) }}">
-            {{ emoji[goal] }} {{ goal_ru }}
+        {% for goal in goals %}
+        <a class="btn btn-outline-secondary" href="{{ url_for('goal', goal_slug=goal.slug) }}">
+            {% if emoji.get(goal.slug) %}
+            {{ emoji.get(goal.slug) }} {{ goal.title }}
+            {% else %}
+            {{ goal.title }}
+            {% endif %}
         </a>
         {% endfor %}
     </div>

@@ -1,15 +1,7 @@
 import json
 import os
 
-from tools import read_file
 
-
-TEACHERS = json.loads(
-    read_file(os.path.join(os.getcwd(), 'data/teachers.json'))
-)
-GOALS = json.loads(
-    read_file(os.path.join(os.getcwd(), 'data/goals.json'))
-)
 EMOJI = {
     'study': u'\U0001F3EB',
     'work': u'\U0001F3E2', 

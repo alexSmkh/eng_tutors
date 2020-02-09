@@ -1,5 +1,4 @@
 from flask_wtf import FlaskForm
-from flask import flash
 from wtforms import StringField, SubmitField, RadioField
 from wtforms.validators import DataRequired
 from wtforms.widgets import TextArea

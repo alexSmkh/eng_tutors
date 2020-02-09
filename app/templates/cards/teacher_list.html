@@ -1,6 +1,6 @@
 {% block teacher_list %}
 
-{% for teacher_id, teacher in teachers.items() %}
+{% for teacher in teachers %}
 <div class="card mb-4">
     <div class="card-body">
         <div class="row">
@@ -11,11 +11,11 @@
             {% endif %}
             <div class="col-9">
                 <p class="float-right">Рейтинг: {{ teacher.rating }} Ставка: {{ teacher.price }} / час</p>
-                <h5>{{ teacher.name }}</h5>
+                <h5>{{ teacher.fullname }}</h5>
                 <p>{{ teacher.about|truncate(200) }}</p>
-                <a href="{{ url_for('profile', teacher_id=teacher_id) }}" class="btn btn-primary btn-sm mr-3">Записаться
+                <a href="{{ url_for('profile', teacher_id=teacher.id) }}" class="btn btn-primary btn-sm mr-3">Записаться
                     на пробный урок</a>
-                <a href="{{ url_for('message', teacher_id=teacher_id) }}"
+                <a href="{{ url_for('message', teacher_id=teacher.id) }}"
                     class="btn btn-outline-primary btn-sm">Отправить сообщение</a>
             </div>
         </div>
